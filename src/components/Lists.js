@@ -1,26 +1,25 @@
+// Dependencies
 import React, { useState, useEffect } from 'react';
+import { DragDropContext } from "react-beautiful-dnd";
 import styled from 'styled-components';
+
+// Imports
 import Cards from './Cards';
 import ListInput from './Inputs/List';
 import CardInput from './Inputs/Card';
-import { DragDropContext } from "react-beautiful-dnd";
 
 export default () => {
-
   const [lists, setLists] = useState([]);
-
   useEffect(() => {
     let json = localStorage.getItem('lists');
     setLists(json === null ? [] : JSON.parse(json));
     if (json === null)
       localStorage.setItem('lists', JSON.stringify([]));
   }, [])
-
   const updateList = (data) => {
     setLists(data);
     saveList(data);
   }
-
   const saveList = (data) => localStorage.setItem('lists', JSON.stringify(data));
   const deleteList = (index) => {
     // I'm facing issues regarding splice.
@@ -29,23 +28,19 @@ export default () => {
     setLists(newList);
     saveList(newList);
   }
-
   function onDragEnd(result) {
     if (!result.destination) return;
     if (result.destination.droppableId === result.source.droppableId &&
       result.destination.index === result.source.index) return;
     if (result.source.droppableId.split("-")[0] !== result.destination.droppableId.split("-")[0]) return;
-
     const source = {
       category: result.source.droppableId.split("-")[1],
       index: result.source.index
     }
-
     const destination = {
       category: result.destination.droppableId.split("-")[1],
       index: result.destination.index
     }
-
     let newList = JSON.parse(localStorage.getItem('lists'));
     let sCards = newList[source.category].cards;
     let dCards = newList[destination.category].cards;
@@ -54,7 +49,6 @@ export default () => {
     dCards.splice(destination.index, 0, card);
     updateList(newList);
   }
-
   return (<List>
     <ListInput updateList={updateList} />
     <DragDropContext onDragEnd={onDragEnd}>

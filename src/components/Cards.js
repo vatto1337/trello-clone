@@ -1,10 +1,12 @@
+// Dependencies
 import React from 'react';
 import styled from 'styled-components';
 import { Droppable } from "react-beautiful-dnd";
+
+// Imports
 import Card from './Card';
 
 export default (props) => {
-
   const deleteCard = (index) => {
     let json = localStorage.getItem('lists');
     let list = JSON.parse(json);
@@ -12,7 +14,6 @@ export default (props) => {
     list[props.index].cards = newCards;
     props.updateList(list);
   }
-
   return (
     <Droppable droppableId={`list-${props.index}`}>
       {provided => (

@@ -1,9 +1,8 @@
-// Imports
+// Dependencies
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 
-// Components
-
+// Imports
 import Header from './Layout/Header';
 import Container from './Layout/Container';
 import Lists from './Lists';
